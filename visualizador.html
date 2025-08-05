@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizador JS/CSS/HTML</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css">
+  <style>
+    .editor-tabs {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .editor-tabs button {
+      background: #2c2c3e;
+      color: #a5b4fc;
+      border: 1px solid #3b3b5c;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .editor-tabs button.active {
+      background: #4f46e5;
+      color: white;
+    }
+    .editor-container {
+      display: none;
+    }
+    .editor-container.active {
+      display: block;
+    }
+    .CodeMirror {
+      height: 200px;
+      border-radius: 8px;
+      background: #1e1e2e;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      background: white;
+      border: none;
+      border-radius: 8px;
+    }
+    button.run {
+      padding: 0.75rem 1.5rem;
+      background-color: #6366f1;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚙️ Ferramentas GLXV</h1>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <ul>
+        <li><a href="index.html">🔢 Calculadora Binária</a></li>
+        <li><a href="visualizador.html">🧪 Visualizador JS/CSS/HTML</a></li>
+        <li><a href="circuito.html">🔌 Visualizador de Circuitos</a></li>
+      </ul>
+    </aside>
+    <main>
+      <section class="container">
+        <h2>Visualizador de Código</h2>
+        <div class="editor-tabs">
+          <button class="tab-button active" data-tab="html">HTML</button>
+          <button class="tab-button" data-tab="css">CSS</button>
+          <button class="tab-button" data-tab="js">JS</button>
+        </div>
+        <div class="editor-container active" id="html-container">
+          <textarea id="html"></textarea>
+        </div>
+        <div class="editor-container" id="css-container">
+          <textarea id="css"></textarea>
+        </div>
+        <div class="editor-container" id="js-container">
+          <textarea id="js"></textarea>
+        </div>
+        <button class="run" onclick="runCode()">Executar Código</button>
+        <iframe id="preview"></iframe>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+  <script>
+    const editors = {
+      html: CodeMirror.fromTextArea(document.getElementById("html"), {
+        mode: "xml",
+        theme: "material-darker",
+        lineNumbers: true
+      }),
+      css: CodeMirror.fromTextArea(document.getElementById("css"), {
+        mode: "css",
+        theme: "material-darker",
+        lineNumbers: true
+      }),
+      js: CodeMirror.fromTextArea(document.getElementById("js"), {
+        mode: "javascript",
+        theme: "material-darker",
+        lineNumbers: true
+      })
+    };
+
+    const tabs = document.querySelectorAll(".tab-button");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        tab.classList.add("active");
+        document.querySelectorAll(".editor-container").forEach(c => c.classList.remove("active"));
+        document.getElementById(`${tab.dataset.tab}-container`).classList.add("active");
+        editors[tab.dataset.tab].refresh();
+      });
+    });
+
+    function runCode() {
+      const html = editors.html.getValue();
+      const css = `<style>${editors.css.getValue()}</style>`;
+      const js = `<script>${editors.js.getValue()}<\/script>`;
+      const iframe = document.getElementById('preview');
+      const content = html + css + js;
+      iframe.srcdoc = content;
+    }
+  </script>
+</body>
+</html>

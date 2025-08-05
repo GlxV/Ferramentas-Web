@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚙️ Ferramentas GLXV</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>⚙️ Ferramentas GLXV</header>
+  <div class="layout">
+    <nav class="sidebar">
+      <ul>
+        <li><a href="index.html">🔢 Calculadora Binária</a></li>
+        <li><a href="visualizador.html">🧪 Visualizador JS/CSS/HTML</a></li>
+        <li><a href="circuito.html">🔌 Visualizador de Circuitos</a></li>
+      </ul>
+    </nav>
+    <main>
+      <div class="container">
+        <h2>Calculadora Binária</h2>
+        <input id="bin1" placeholder="Primeiro número binário">
+        <select id="operacao">
+          <option value="+">+</option>
+          <option value="-">-</option>
+          <option value="*">×</option>
+          <option value="/">÷</option>
+        </select>
+        <input id="bin2" placeholder="Segundo número binário">
+        <button onclick="calcular()">Calcular</button> 
+        <div id="resultado" class="resultado"></div> <br>
+        <h3>Conversão</h3>
+        <input id="binConvert" placeholder="Número binário para conversão">
+        <button onclick="converter()">Converter</button>
+        <div id="conversoes" class="resultado"></div> <br>
+        <h3>Calculadora de Complemento de 2</h3>
+        <input id="complementInput" placeholder="Número binário (ex: 1010)">
+       <button onclick="calcularComplemento2()">Calcular Complemento de 2</button>
+       <div id="resultadoComplemento" class="resultado"></div>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
